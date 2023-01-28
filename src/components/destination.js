@@ -3,13 +3,15 @@ import { Text, StyleSheet, View, Pressable, TextInput } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import { SearchBar } from "react-native-screens";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import { useSelector } from "react-redux";
 
 export default function Destination({ navigation }) {
   const [Destination, setDestination] = useState(null);
   const [search, setSearch] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
-
+  const reduxData = useSelector((state) => state);
+  console.log(reduxData);
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -43,12 +45,15 @@ export default function Destination({ navigation }) {
           style={styles.Search}
           placeholder="Search Location"
           onChangeText={(text) => setSearch(text)}
-        >
-          {search}
-        </TextInput>
-        <Text style={search ? styles.SearchText : styles.SearchTextNone}>
-          {search}
-        </Text>
+        ></TextInput>
+        <Pressable style={styles.inputIcon}>
+          <FontAwesome5 name="search-location" size={24} color="white" />
+        </Pressable>
+      </View>
+      <View style={search ? styles.searchItem : styles.searchItemNone}>
+        <Pressable>
+          <Text style={styles.SearchText}>{search}</Text>
+        </Pressable>
       </View>
       <MapView
         style={styles.map}
@@ -108,27 +113,49 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     backgroundColor: "white",
-    width: "90%",
+    width: "78%",
     zIndex: 1,
     position: "absolute",
     top: 20,
+    left: 14,
+    flex: 1,
+    flexDirection: "row",
   },
-  SearchTextNone: {
-    display: "none",
-  },
-  Search: {
+  inputIcon: {
     borderWidth: 2,
     borderRadius: 10,
+    padding: 10,
+    backgroundColor: "black",
+    marginLeft: 10,
+  },
+  Search: {
     padding: 5,
     width: "100%",
-    fontSize: 20,
+    fontSize: 22,
     paddingStart: 20,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: "black",
+    paddingLeft: 20,
+  },
+  searchItem: {
+    backgroundColor: "white",
+    borderRadius: 5,
+    backgroundColor: "black",
+    width: "94%",
+    zIndex: 1,
+    position: "absolute",
+    top: 80,
+    left: 14,
+    flexDirection: "column",
+  },
+  searchItemNone: {
+    display: "none",
   },
   SearchText: {
     fontSize: 20,
-    backgroundColor: "black",
     color: "white",
-    borderRadius: 10,
+    padding: 10,
   },
   btnContainer: {
     flex: 1 / 10,

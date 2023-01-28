@@ -3,10 +3,15 @@ import { Text, StyleSheet, View, Pressable } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { PickupLocation } from "../store/slice/locationSlice";
 
 export default function Pickup({ navigation }) {
   const [pickUp, setpickUp] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const dispatch = useDispatch();
+  const reduxData = useSelector((state) => state);
+  console.log(reduxData);
 
   useEffect(() => {
     (async () => {
@@ -54,6 +59,7 @@ export default function Pickup({ navigation }) {
           style={styles.btn}
           onPress={() => {
             navigation.navigate("Destination");
+            dispatch(PickupLocation(pickUp));
           }}
         >
           <Text style={styles.btnText}>Pick Destination</Text>
