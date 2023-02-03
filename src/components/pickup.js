@@ -5,13 +5,13 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PickupLocation } from "../store/slice/locationSlice";
+// import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 export default function Pickup({ navigation }) {
   const [pickUp, setpickUp] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const dispatch = useDispatch();
   const reduxData = useSelector((state) => state);
-  console.log(reduxData);
 
   useEffect(() => {
     (async () => {
@@ -33,7 +33,7 @@ export default function Pickup({ navigation }) {
       </View>
     );
   }
-
+  // console.log(pickUp);
   return (
     <View style={styles.containerMap}>
       <MapView
@@ -62,7 +62,7 @@ export default function Pickup({ navigation }) {
             dispatch(PickupLocation(pickUp));
           }}
         >
-          <Text style={styles.btnText}>Pick Destination</Text>
+          <Text style={styles.btnText}>Confirm PickUp</Text>
         </Pressable>
       </View>
     </View>
